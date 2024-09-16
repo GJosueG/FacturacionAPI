@@ -47,8 +47,8 @@ namespace FacturacionAPI.Services.Productos
         {
             var productoRequest = _mapper.Map<ProductoRequest,Producto>(producto);
             await _db.Productos.AddAsync(productoRequest);
-
-            return await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
+            return productoRequest.ProductoId;
         }
 
         public async Task<int> PutProducto(int productoId, ProductoRequest producto)
