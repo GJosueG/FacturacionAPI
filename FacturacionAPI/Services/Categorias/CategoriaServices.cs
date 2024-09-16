@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FacturacionAPI.Services.Categorias
 {
-    public class CategoriaServices
+    public class CategoriaServices : ICategoriaServices
     {
         private readonly FacturasDbContext _db;
         private readonly IMapper _mapper;

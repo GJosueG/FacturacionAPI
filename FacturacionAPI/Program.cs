@@ -1,4 +1,13 @@
+using FacturacionAPI.Endpoints;
 using FacturacionAPI.Models;
+using FacturacionAPI.Services.Categorias;
+using FacturacionAPI.Services.Estados;
+using FacturacionAPI.Services.Facturas;
+using FacturacionAPI.Services.Productos;
+using FacturacionAPI.Services.Roles;
+using FacturacionAPI.Services.Tickets;
+using FacturacionAPI.Services.Usuarios;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -15,6 +24,14 @@ builder.Services.AddDbContext<FacturasDbContext>(
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddScoped<ICategoriaServices, CategoriaServices>();
+builder.Services.AddScoped<IEstadoServices, EstadoServices>();
+builder.Services.AddScoped<IRolServices, RolServices>();
+builder.Services.AddScoped<IUsuarioServices, UsuarioServices>();
+builder.Services.AddScoped<IProductoServices, ProductoServices>();
+builder.Services.AddScoped<ITicketServices, TicketServices>();
+builder.Services.AddScoped<IFacturaServices, FacturaServices>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,4 +42,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseEnpoints();
 app.Run();

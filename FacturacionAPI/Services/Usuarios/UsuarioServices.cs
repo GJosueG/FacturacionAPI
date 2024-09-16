@@ -18,7 +18,7 @@ namespace FacturacionAPI.Services.Usuarios
 
         public async Task<int> DeleteUsuario(int usuarioId)
         {
-            var usuario = await_db.Usuarios.FindAsync(usuarioId);
+            var usuario = await _db.Usuarios.FindAsync(usuarioId);
             if (usuario == null)
                 return -1;
 
@@ -28,7 +28,7 @@ namespace FacturacionAPI.Services.Usuarios
 
         public async Task<UsuarioResponse> GetUsuario(int usuarioId)
         {
-            var usuario = await_db.Usuarios.FindAsync(usuarioId);
+            var usuario = await _db.Usuarios.FindAsync(usuarioId);
             var usuarioResponse = _mapper.Map<Usuario, UsuarioResponse>(usuario);
 
             return usuarioResponse;
@@ -36,7 +36,7 @@ namespace FacturacionAPI.Services.Usuarios
 
         public async Task<List<UsuarioResponse>> GetUsuarios()
         {
-            var usuarios = await_db.Usuarios.ToListAsync();
+            var usuarios = await _db.Usuarios.ToListAsync();
             var usuariosList = _mapper.Map<List<Usuario>, List<UsuarioResponse>> (usuarios);
 
             return usuariosList;
@@ -47,7 +47,7 @@ namespace FacturacionAPI.Services.Usuarios
             var usuarioRequest = _mapper.Map<UsuarioRequest, Usuario>(usuario);
             await _db.Usuarios.AddAsync(usuarioRequest);
             await _db.SaveChangesAsync();
-            return usuarioRequest.UsuarioId();
+            return usuarioRequest.UsuarioId;
         }
 
         public async Task <int> PutUsuario(int usuarioId, UsuarioRequest usuario)

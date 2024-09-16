@@ -23,7 +23,7 @@ public partial class FacturasDbContext : DbContext
 
     public virtual DbSet<Producto> Productos { get; set; }
 
-    public virtual DbSet<Rol> Rols { get; set; }
+    public virtual DbSet<Rol> Roles { get; set; }
 
     public virtual DbSet<Ticket> Tickets { get; set; }
 

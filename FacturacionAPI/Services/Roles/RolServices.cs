@@ -1,5 +1,7 @@
-﻿using FacturacionAPI.DTOs;
+﻿using AutoMapper;
+using FacturacionAPI.DTOs;
 using FacturacionAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FacturacionAPI.Services.Roles
 {
@@ -16,7 +18,7 @@ namespace FacturacionAPI.Services.Roles
 
         public async Task<int> DeleteRol(int rolId)
         {
-            var rol = await_db.Roles.FindAsync(rolId);
+            var rol = await _db.Roles.FindAsync(rolId);
             if (rol == null)
                 return -1;
 
@@ -26,18 +28,18 @@ namespace FacturacionAPI.Services.Roles
 
         public async Task<RolResponse> GetRol(int rolId)
         {
-            var rol = await_db.Roles.FindAsync(rol);
-            var rolResponse = _mapper.Map<Roles, RolResponse>(rol);
+            var rol = await _db.Roles.FindAsync(rolId);
+            var rolResponse = _mapper.Map<Rol, RolResponse>(rol);
 
             return rolResponse;
         }
 
         public async Task<List<RolResponse>> GetRoles()
         {
-            var roles = await_db.Roles.ToListAsync();
-            var rolList = _mapper.Map<List<rol>, List<RolResponse>>(roles);
+            var roles = await _db.Roles.ToListAsync();
+            var rolList = _mapper.Map<List<Rol>, List<RolResponse>>(roles);
 
-            return rolesList;
+            return rolList;
         }
 
         public async Task<int> PostRol(RolRequest rol)
@@ -45,7 +47,7 @@ namespace FacturacionAPI.Services.Roles
             var rolRequest = _mapper.Map<RolRequest, Rol>(rol);
             await _db.Roles.AddAsync(rolRequest);
             await _db.SaveChangesAsync();
-            return RolRequest.RolId();
+            return rolRequest.RolId;
 
         }
 
@@ -55,7 +57,7 @@ namespace FacturacionAPI.Services.Roles
             if (entity == null)
                 return -1;
 
-            entity.Nombre = usuario.Nombre;
+            entity.Nombre = rol.Nombre;
 
             _db.Roles.Update(entity);
 
