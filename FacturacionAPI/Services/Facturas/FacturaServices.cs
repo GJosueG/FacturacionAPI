@@ -48,8 +48,9 @@ namespace FacturacionAPI.Services.Facturas
         {
             var facturaRequest = _mapper.Map<FacturaRequest, Factura>(factura);
             await _db.Facturas.AddAsync(facturaRequest);
+            await _db.SaveChangesAsync();
 
-            return await _db.SaveChangesAsync();
+            return facturaRequest.FacturaId;
         }
 
         public async Task<int> PutFactura(int facturaId, FacturaRequest factura)
