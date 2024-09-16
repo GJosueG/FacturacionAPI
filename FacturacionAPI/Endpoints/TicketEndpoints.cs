@@ -55,7 +55,7 @@ namespace FacturacionAPI.Endpoints
                 Description = "Crear un nuevo ticket"
             });
 
-            groups.MapPut("{/id}", async (int id, TicketRequest ticket, ITicketServices ticketServices) =>
+            groups.MapPut("/{id}", async (int id, TicketRequest ticket, ITicketServices ticketServices) =>
             {
 
 
@@ -71,7 +71,7 @@ namespace FacturacionAPI.Endpoints
                 Description = "Actualiza un ticket existente"
             });
 
-            groups.MapDelete("{/id}", async (int id, ITicketServices ticketServices) =>
+            groups.MapDelete("/{id}", async (int id, ITicketServices ticketServices) =>
             {
 
 

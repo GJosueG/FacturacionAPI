@@ -1,6 +1,7 @@
 ﻿using FacturacionAPI.DTOs;
 using FacturacionAPI.Services.Roles;
 using FacturacionAPI.Services.Usuarios;
+using Microsoft.OpenApi.Models;
 
 namespace FacturacionAPI.Endpoints
 {
@@ -10,32 +11,32 @@ namespace FacturacionAPI.Endpoints
         {
             var group = routes.MapGroup("/api/roles").WithTags("roles");
 
-            //Obtener una lista de roles
+            // Obtener una lista de roles
             group.MapGet("/", async (IRolServices rolServices) =>
             {
                 var roles = await rolServices.GetRoles();
                 return Results.Ok(roles);
-            }).WhitOpenApi(o => new OpenApiOperation(o)
+            }).WithOpenApi(o => new OpenApiOperation
             {
                 Summary = "Obtener roles",
                 Description = "Muestra una lista de todos los roles."
             });
 
-            //Obtener rol por id
+            // Obtener rol por id
             group.MapGet("/{id}", async (int id, IRolServices rolServices) =>
             {
-                var rol = await rolServices.GetRoles(id);
-                if (roles == null)
+                var rol = await rolServices.GetRol(id);
+                if (rol == null)
                     return Results.NotFound();
                 else
                     return Results.Ok(rol);
-            }).WhitOpenApi(o => new OpenApiOperation(o)
+            }).WithOpenApi(o => new OpenApiOperation
             {
                 Summary = "Obtener rol",
                 Description = "Busca un rol por id."
             });
 
-            //Crear rol
+            // Crear rol
             group.MapPost("/", async (RolRequest rol, IRolServices rolServices) =>
             {
                 if (rol == null)
@@ -43,13 +44,13 @@ namespace FacturacionAPI.Endpoints
 
                 var id = await rolServices.PostRol(rol);
                 return Results.Created($"api/roles/{id}", rol);
-            }).WhitOpenApi(o => new OpenApiOperation(o)
+            }).WithOpenApi(o => new OpenApiOperation
             {
                 Summary = "Crear Rol",
                 Description = "Crear un nuevo rol."
             });
 
-            //Modificar rol
+            // Modificar rol
             group.MapPut("/{id}", async (int id, RolRequest rol, IRolServices rolServices) =>
             {
                 var result = await rolServices.PutRol(id, rol);
@@ -57,21 +58,21 @@ namespace FacturacionAPI.Endpoints
                     return Results.NotFound();
                 else
                     return Results.Ok(result);
-            }).WhitOpenApi(o => new OpenApiOperation(o)
+            }).WithOpenApi(o => new OpenApiOperation
             {
                 Summary = "Modificar rol",
                 Description = "Actualiza un rol existente."
             });
 
-            //Eliminar rol
-            group.MapDelete("/{id}", async (int id, RolRequest rol, IRolServices rolServices) =>
+            // Eliminar rol
+            group.MapDelete("/{id}", async (int id, IRolServices rolServices) =>
             {
                 var result = await rolServices.DeleteRol(id);
                 if (result == -1)
-                    return Results.NotFound();
+                    return Results.NotFound(); // 404 Not Found: El recurso solicitado no existe
                 else
-                    return Results.NotContent;
-            }).WhitOpenApi(o => new OpenApiOperation(o)
+                    return Results.NoContent(); // 204 No Content: Recurso eliminado
+            }).WithOpenApi(o => new OpenApiOperation
             {
                 Summary = "Eliminar rol",
                 Description = "Eliminar un rol existente."

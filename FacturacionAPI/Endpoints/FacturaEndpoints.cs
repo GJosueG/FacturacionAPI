@@ -55,7 +55,7 @@ namespace FacturacionAPI.Endpoints
                 Description = "Crear una nueva factura"
             });
 
-            groups.MapPut("{/id}", async (int id, FacturaRequest factura, IFacturaServices facturaServices) =>
+            groups.MapPut("/{id}", async (int id, FacturaRequest factura, IFacturaServices facturaServices) =>
             {
                
 
@@ -73,7 +73,7 @@ namespace FacturacionAPI.Endpoints
                 Description = "Actualiza una factura existente"
             });
 
-            groups.MapDelete("{/id}", async (int id, IFacturaServices facturaServices) =>
+            groups.MapDelete("/{id}", async (int id, IFacturaServices facturaServices) =>
             {
 
 
