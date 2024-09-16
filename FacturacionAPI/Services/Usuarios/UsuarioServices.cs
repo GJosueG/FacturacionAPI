@@ -46,8 +46,8 @@ namespace FacturacionAPI.Services.Usuarios
         {
             var usuarioRequest = _mapper.Map<UsuarioRequest, Usuario>(usuario);
             await _db.Usuarios.AddAsync(usuarioRequest);
-
-            return await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
+            return usuarioRequest.UsuarioId();
         }
 
         public async Task <int> PutUsuario(int usuarioId, UsuarioRequest usuario)
