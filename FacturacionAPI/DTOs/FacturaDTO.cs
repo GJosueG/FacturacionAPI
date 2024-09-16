@@ -20,9 +20,9 @@ namespace FacturacionAPI.DTOs
 
         public int? EstadoId { get; set; }
 
-        //public virtual EstadoResponse { get; set; }
+        public virtual EstadoResponse? Estado { get; set; }
 
-        //public virtual UsuarioResponse { get; set; }
+        public virtual UsuarioResponse? Usuario { get; set; }
 
     }
 
