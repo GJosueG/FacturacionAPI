@@ -44,8 +44,9 @@ namespace FacturacionAPI.Services.Roles
         {
             var rolRequest = _mapper.Map<RolRequest, Rol>(rol);
             await _db.Roles.AddAsync(rolRequest);
+            await _db.SaveChangesAsync();
+            return RolRequest.RolId();
 
-            return await _db.SaveChangesAsync();
         }
 
         public async Task<int> PutRol(int rolId, RolRequest rol)
