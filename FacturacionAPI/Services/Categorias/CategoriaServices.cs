@@ -48,8 +48,9 @@ namespace FacturacionAPI.Services.Categorias
         {
             var categoriaRequest = _mapper.Map<CategoriaRequest, Categoria>(categoria);
             await _db.Categorias.AddAsync(categoriaRequest);
+            await _db.SaveChangesAsync();
 
-            return await _db.SaveChangesAsync();
+            return categoriaRequest.CategoriaId;
         }
 
         public async Task<int> PutCategoria(int categoriaId, CategoriaRequest categoria)
