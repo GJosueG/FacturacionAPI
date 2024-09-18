@@ -42,5 +42,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseEnpoints();
+app.UseEndpoints();
 app.Run();
