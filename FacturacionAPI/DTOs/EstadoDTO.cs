@@ -1,4 +1,5 @@
-﻿namespace FacturacionAPI.DTOs
+﻿using FacturacionAPI.Models;
+namespace FacturacionAPI.DTOs
 {
     public class EstadoResponse
     {

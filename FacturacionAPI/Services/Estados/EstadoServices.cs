@@ -46,7 +46,7 @@ namespace FacturacionAPI.Services.Estados
 
         public async Task<int> PostEstado(EstadoRequest estado)
         {
-            var estadoRequest= _mapper.Map<EstadoRequest,Estado>(estado);
+            var estadoRequest= _mapper.Map<EstadoRequest, Estado>(estado);
             await _db.Estados.AddAsync(estadoRequest);
             await _db.SaveChangesAsync();
 
