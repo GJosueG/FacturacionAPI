@@ -21,7 +21,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Categorías",
                 Description = "Muestra una lista de todas las categorías."
-            });
+            }).RequireAuthorization();
 
             groups.MapGet("/{id}", async (int id, ICategoriaServices categoriaServices) => {
                 var categoria = await categoriaServices.GetCategoria(id);
@@ -34,7 +34,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Categoría",
                 Description = "Busca una categoría por id."
-            });
+            }).RequireAuthorization();
 
             groups.MapPost("/", async (CategoriaRequest categoria, ICategoriaServices categoriaServices) => {
                 if (categoria == null)
@@ -47,7 +47,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Categoría",
                 Description = "Crear una nueva categoría."
-            });
+            }).RequireAuthorization();
 
             groups.MapPut("/{id}", async (int id, CategoriaRequest categoria, ICategoriaServices categoriaServices) => {
                 var result = await categoriaServices.PutCategoria(id, categoria);
@@ -59,7 +59,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Modificar Categoría",
                 Description = "Actualiza una categoría existente."
-            });
+            }).RequireAuthorization();
 
             groups.MapDelete("/{id}", async (int id, ICategoriaServices categoriaServices) => {
                 var result = await categoriaServices.DeleteCategoria(id);
@@ -71,7 +71,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Eliminar Categoría",
                 Description = "Eliminar una categoría existente."
-            });
+            }).RequireAuthorization();
 
         }
     }

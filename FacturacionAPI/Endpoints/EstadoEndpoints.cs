@@ -21,8 +21,8 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Estados",
                 Description = "Muestra una lista de todos los estados."
-            });
-            
+            }).RequireAuthorization();
+
             groups.MapGet("/{id}", async (int id, IEstadoServices estadoServices) => {
                 var estado = await estadoServices.GetEstado(id);
 
@@ -34,7 +34,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Estado",
                 Description = "Busca un estado por id."
-            });
+            }).RequireAuthorization();
 
             groups.MapPost("/", async (EstadoRequest estado, IEstadoServices estadoServices) => {
                 if (estado == null)
@@ -47,7 +47,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Estado",
                 Description = "Crear un nuevo estado."
-            });
+            }).RequireAuthorization();
 
             groups.MapPut("/{id}", async (int id, EstadoRequest estado, IEstadoServices estadoServices) => {
                 var result = await estadoServices.PutEstado(id, estado);
@@ -59,7 +59,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Modificar Estado",
                 Description = "Actualiza un estado existente."
-            });
+            }).RequireAuthorization();
 
             groups.MapDelete("/{id}", async (int id, IEstadoServices estadoServices) => {
                 var result = await estadoServices.DeleteEstado(id);
@@ -71,8 +71,8 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Eliminar Estado",
                 Description = "Eliminar un estado existente."
-            });
-            
+            }).RequireAuthorization();
+
         }
     }
 }
