@@ -20,4 +20,5 @@ public partial class Usuario
     public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
 
     public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
+
 }
