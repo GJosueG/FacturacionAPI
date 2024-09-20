@@ -23,7 +23,8 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Tickets",
                 Description = "Muestra una lista de todos los tickets"
-            });
+            }).RequireAuthorization();
+
             groups.MapGet("/{id}", async (int id, ITicketServices ticketServices) =>
             {
                 var ticket = await ticketServices.GetTicket(id);
@@ -37,7 +38,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Ticket",
                 Description = "Busca un ticket por id"
-            });
+            }).RequireAuthorization();
 
             groups.MapPost("/", async (TicketRequest ticket, ITicketServices ticketServices) =>
             {
@@ -53,7 +54,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Ticket",
                 Description = "Crear un nuevo ticket"
-            });
+            }).RequireAuthorization();
 
             groups.MapPut("/{id}", async (int id, TicketRequest ticket, ITicketServices ticketServices) =>
             {
@@ -69,7 +70,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Modificar Ticket",
                 Description = "Actualiza un ticket existente"
-            });
+            }).RequireAuthorization();
 
             groups.MapDelete("/{id}", async (int id, ITicketServices ticketServices) =>
             {
@@ -87,7 +88,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Eliminar Ticket",
                 Description = "Elimina un ticket existente"
-            });
+            }).RequireAuthorization();
         }
     }
 }

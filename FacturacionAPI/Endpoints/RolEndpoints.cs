@@ -20,7 +20,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener roles",
                 Description = "Muestra una lista de todos los roles."
-            });
+            }).RequireAuthorization();
 
             // Obtener rol por id
             groups.MapGet("/{id}", async (int id, IRolServices rolServices) =>
@@ -34,7 +34,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener rol",
                 Description = "Busca un rol por id."
-            });
+            }).RequireAuthorization();
 
             // Crear rol
             groups.MapPost("/", async (RolRequest rol, IRolServices rolServices) =>
@@ -48,7 +48,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Rol",
                 Description = "Crear un nuevo rol."
-            });
+            }).RequireAuthorization();
 
             // Modificar rol
             groups.MapPut("/{id}", async (int id, RolRequest rol, IRolServices rolServices) =>
@@ -62,7 +62,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Modificar rol",
                 Description = "Actualiza un rol existente."
-            });
+            }).RequireAuthorization();
 
             // Eliminar rol
             groups.MapDelete("/{id}", async (int id, IRolServices rolServices) =>
@@ -76,7 +76,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Eliminar rol",
                 Description = "Eliminar un rol existente."
-            });
+            }).RequireAuthorization();
         }
     }
 }
