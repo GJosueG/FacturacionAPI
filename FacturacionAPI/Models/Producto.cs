@@ -13,9 +13,13 @@ public partial class Producto
 
     public int Stock { get; set; }
 
+    public int UsuarioId { get; set; }
+
     public int? CategoriaId { get; set; }
 
     public int? EstadoId { get; set; }
+
+    public virtual Usuario? Usuario { get; set; }
 
     public virtual Categoria? Categoria { get; set; }
 
