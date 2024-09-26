@@ -58,10 +58,10 @@ namespace FacturacionAPI.Services.Tickets
 
             entity.Descripcion = ticket.Descripcion;
             entity.Cantidad = ticket.Cantidad;
-            entity.Precio = ticket.Precio;
+            //entity.Precio = ticket.Precio;
             entity.Total = ticket.Total;
 
-            _db.Tickets.Add(entity);
+            _db.Tickets.Update(entity);
             return await _db.SaveChangesAsync();
         }
     }
