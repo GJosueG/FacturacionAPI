@@ -52,7 +52,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Usuario",
                 Description = "Crear un nuevo usuario."
-            }).RequireAuthorization();
+            });
 
             // Modificar usuario
             groups.MapPut("/{id}", async (int id, UsuarioRequest usuario, IUsuarioServices usuarioServices) =>
