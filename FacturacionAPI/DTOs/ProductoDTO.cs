@@ -39,11 +39,11 @@ namespace FacturacionAPI.DTOs
         public int? CategoriaId { get; set; }
 
         public int? EstadoId { get; set; }
+      
 
         public virtual Usuario? Usuario { get; set; }
 
         public virtual Categoria? Categoria { get; set; }
-
         public virtual Estado? Estado { get; set; }
     }
 }
