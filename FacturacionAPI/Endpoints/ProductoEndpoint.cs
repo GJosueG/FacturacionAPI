@@ -21,7 +21,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Productos",
                 Description = "Muestra una lista de todos los productos."
-            });
+            }).RequireAuthorization();
 
             group.MapGet("/{id}", async (int id, IProductoServices productoServices) =>
             {
@@ -34,7 +34,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Producto",
                 Description = "Busca un producto por id."
-            });
+            }).RequireAuthorization();
 
 
             group.MapPost("/", async (ProductoRequest producto, IProductoServices productoServices) =>{
@@ -49,7 +49,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Producto",
                 Description = "Crear un nuevo producto."
-            });
+            }).RequireAuthorization();
 
             group.MapPut("/{id}", async ( int id,ProductoRequest producto, IProductoServices productoServices) =>{
                 var result = await productoServices.PutProducto(id,producto);
@@ -62,7 +62,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Modificar producto",
                 Description = "Actualiza un producto existente."
-            });
+            }).RequireAuthorization();
 
             group.MapDelete("/{id}", async (int id, IProductoServices productoServices) => {
                 var result = await productoServices.DeleteProducto(id);
@@ -75,7 +75,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Eliminar producto",
                 Description = "Eliminar un producto existente."
-            });
+            }).RequireAuthorization();
         }
 
     }

@@ -61,11 +61,11 @@ namespace FacturacionAPI.Services.Facturas
 
             entity.Descripcion = factura.Descripcion;
             entity.Cantidad = factura.Cantidad;
-            entity.Precio = factura.Precio;
+            //entity.Precio = factura.Precio;
             entity.Impuesto = factura.Impuesto;
             entity.FechaEmision = factura.FechaEmision;
 
-            _db.Facturas.Add(entity);
+            _db.Facturas.Update(entity);
 
             return await _db.SaveChangesAsync();
         }

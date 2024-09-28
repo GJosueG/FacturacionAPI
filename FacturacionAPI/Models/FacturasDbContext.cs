@@ -67,7 +67,7 @@ public partial class FacturasDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.FechaEmision).HasColumnType("datetime");
             entity.Property(e => e.Impuesto).HasColumnType("decimal(18, 0)");
-            entity.Property(e => e.Precio).HasColumnType("decimal(18, 0)");
+            //entity.Property(e => e.Precio).HasColumnType("decimal(18, 0)");
 
             entity.HasOne(d => d.Estado).WithMany(p => p.Facturas)
                 .HasForeignKey(d => d.EstadoId)
@@ -115,7 +115,7 @@ public partial class FacturasDbContext : DbContext
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(500)
                 .IsUnicode(false);
-            entity.Property(e => e.Precio).HasColumnType("decimal(18, 0)");
+            //entity.Property(e => e.Precio).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.Total).HasColumnType("decimal(18, 0)");
 
             entity.HasOne(d => d.Estado).WithMany(p => p.Tickets)

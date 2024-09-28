@@ -42,6 +42,18 @@ namespace FacturacionAPI.Services.Usuarios
             return usuariosList;
         }
 
+        public async Task<UsuarioResponse> Login(UsuarioRequest usuario)
+        {
+            var usuarioEntity = await _db.Usuarios.FirstOrDefaultAsync(
+                o=> o.Nombre == usuario.Nombre
+                && o.Contrasena == usuario.Contrasena
+                );
+
+            var usuarioResponse = _mapper.Map<Usuario, UsuarioResponse>(usuarioEntity);
+
+            return usuarioResponse;
+        }
+
         public async Task<int> PostUsuario(UsuarioRequest usuario)
         {
             var usuarioRequest = _mapper.Map<UsuarioRequest, Usuario>(usuario);

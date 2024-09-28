@@ -23,7 +23,8 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Facturas",
                 Description = "Muestra una lista de todas las facturas"
-            });
+            }).RequireAuthorization();
+
             groups.MapGet("/{id}", async (int id, IFacturaServices facturaServices) =>
             {
                 var fatura = await facturaServices.GetFactura(id);
@@ -37,7 +38,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Factura",
                 Description = "Busca una facutura por id"
-            });
+            }).RequireAuthorization();
 
             groups.MapPost("/", async (FacturaRequest factura, IFacturaServices facturaServices) =>
             {
@@ -53,7 +54,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Factura",
                 Description = "Crear una nueva factura"
-            });
+            }).RequireAuthorization();
 
             groups.MapPut("/{id}", async (int id, FacturaRequest factura, IFacturaServices facturaServices) =>
             {
@@ -71,7 +72,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Modificar Factura",
                 Description = "Actualiza una factura existente"
-            });
+            }).RequireAuthorization();
 
             groups.MapDelete("/{id}", async (int id, IFacturaServices facturaServices) =>
             {
@@ -89,7 +90,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Eliminar Factura",
                 Description = "Elimina una factura existente"
-            });
+            }).RequireAuthorization();
         }
     }
 }

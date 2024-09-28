@@ -12,13 +12,16 @@ namespace FacturacionAPI.DTOs
 
         public int Stock { get; set; }
 
+        public int UsuarioId { get; set; }
+
         public int? CategoriaId { get; set; }
 
         public int? EstadoId { get; set; }
 
-        public virtual Categoria? Categoria { get; set; }
+        public virtual UsuarioResponse Usuario { get; set; }
+        public virtual CategoriaResponse? Categoria { get; set; }
 
-        public virtual Estado? Estado { get; set; }
+        public virtual EstadoResponse? Estado { get; set; }
     }
 
     public class ProductoRequest
@@ -31,13 +34,17 @@ namespace FacturacionAPI.DTOs
 
         public int Stock { get; set; }
 
+        public int UsuarioId { get; set; }
+
         public int? CategoriaId { get; set; }
 
         public int? EstadoId { get; set; }
+      
 
-        //public virtual Categoria? Categoria { get; set; }
+        public virtual Usuario? Usuario { get; set; }
 
-        //public virtual Estado? Estado { get; set; }
+        public virtual Categoria? Categoria { get; set; }
+        public virtual Estado? Estado { get; set; }
     }
 }
 

@@ -1,6 +1,11 @@
 ﻿using FacturacionAPI.DTOs;
+using FacturacionAPI.Models;
 using FacturacionAPI.Services.Usuarios;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace FacturacionAPI.Endpoints
 {
@@ -19,7 +24,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Usuarios",
                 Description = "Muestra una lista de todos los usuarios."
-            });
+            }).RequireAuthorization();
 
             // Obtener usuario por id
             groups.MapGet("/{id}", async (int id, IUsuarioServices usuarioServices) =>
@@ -33,7 +38,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Usuario",
                 Description = "Busca un usuario por id."
-            });
+            }).RequireAuthorization();
 
             // Crear usuario
             groups.MapPost("/", async (UsuarioRequest usuario, IUsuarioServices usuarioServices) =>
@@ -47,7 +52,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Crear Usuario",
                 Description = "Crear un nuevo usuario."
-            });
+            }).RequireAuthorization();
 
             // Modificar usuario
             groups.MapPut("/{id}", async (int id, UsuarioRequest usuario, IUsuarioServices usuarioServices) =>
@@ -61,7 +66,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Modificar Usuario",
                 Description = "Actualiza un usuario existente."
-            });
+            }).RequireAuthorization();
 
             // Eliminar usuario
             groups.MapDelete("/{id}", async (int id, IUsuarioServices usuarioServices) =>
@@ -75,6 +80,47 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Eliminar Usuario",
                 Description = "Eliminar un usuario existente."
+            }).RequireAuthorization();
+
+            //Inicio de sesión
+            groups.MapPost("/login", async (UsuarioRequest usuario, IUsuarioServices usuarioServices, IConfiguration config) => {
+                var login = await usuarioServices.Login(usuario);
+
+                if(login is null)
+                    return Results.Unauthorized(); //Retorna el estado 401: Unauthorized
+                else
+                {
+                    var jwtSettings = config.GetSection("JwtSetting");
+                    var secretkey = jwtSettings.GetValue<string>("secretkey");
+                    var issuer = jwtSettings.GetValue<string>("Issuer");
+                    var audience = jwtSettings.GetValue<string>("Audience");
+
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.UTF8.GetBytes(secretkey);
+
+                    var tokenDescriptor = new SecurityTokenDescriptor {
+                        Subject = new ClaimsIdentity(new[] {
+                            new Claim(ClaimTypes.Name, usuario.Nombre),
+                            //new Claim(ClaimTypes.Role, usuario.R)
+                        }),
+                        Expires = DateTime.UtcNow.AddHours(1),
+                        Issuer = issuer,
+                        Audience = audience,
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), 
+                        SecurityAlgorithms.HmacSha256Signature)
+                    };
+
+                    //Crar token, usando parámetros definidos
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
+                    //Convertir el token a una cadena
+                    var jwt = tokenHandler.WriteToken(token);
+
+                    return Results.Ok(jwt);                  
+                }
+            }).WithOpenApi(o => new OpenApiOperation(o)
+            {
+                Summary = "Login Usuario",
+                Description = "Generar token para inicio de sesion."
             });
         }
     }

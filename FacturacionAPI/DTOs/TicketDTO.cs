@@ -10,14 +10,18 @@ namespace FacturacionAPI.DTOs
 
         public decimal Cantidad { get; set; }
 
-        public decimal Precio { get; set; }
+        //public decimal Precio { get; set; }
 
         public decimal Total { get; set; }
+
+        public int? ProductoId { get; set; }
 
         public int? UsuarioId { get; set; }
 
         public int? EstadoId { get; set; }
+       
 
+        public virtual ProductoResponse? Producto { get; set; }
         public virtual EstadoResponse? Estado { get; set; }
 
         public virtual UsuarioResponse? Usuario { get; set; }
@@ -32,9 +36,11 @@ namespace FacturacionAPI.DTOs
 
         public decimal Cantidad { get; set; }
 
-        public decimal Precio { get; set; }
+        //public decimal Precio { get; set; }
 
         public decimal Total { get; set; }
+
+        public int? ProductoId { get; set; }
 
         public int? UsuarioId { get; set; }
 
