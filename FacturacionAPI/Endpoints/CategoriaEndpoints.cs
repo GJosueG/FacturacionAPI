@@ -21,7 +21,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Categorías",
                 Description = "Muestra una lista de todas las categorías."
-            }).RequireAuthorization();
+            });
 
             groups.MapGet("/{id}", async (int id, ICategoriaServices categoriaServices) => {
                 var categoria = await categoriaServices.GetCategoria(id);

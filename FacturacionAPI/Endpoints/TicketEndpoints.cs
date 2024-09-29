@@ -23,7 +23,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Tickets",
                 Description = "Muestra una lista de todos los tickets"
-            }).RequireAuthorization();
+            });
 
             groups.MapGet("/{id}", async (int id, ITicketServices ticketServices) =>
             {

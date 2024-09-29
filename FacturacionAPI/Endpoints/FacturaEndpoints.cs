@@ -23,7 +23,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Facturas",
                 Description = "Muestra una lista de todas las facturas"
-            }).RequireAuthorization();
+            });
 
             groups.MapGet("/{id}", async (int id, IFacturaServices facturaServices) =>
             {

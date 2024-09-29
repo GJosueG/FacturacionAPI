@@ -21,7 +21,7 @@ namespace FacturacionAPI.Endpoints
             {
                 Summary = "Obtener Productos",
                 Description = "Muestra una lista de todos los productos."
-            }).RequireAuthorization();
+            });
 
             group.MapGet("/{id}", async (int id, IProductoServices productoServices) =>
             {
