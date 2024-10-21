@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http.Json;
 using System.Net.Http.Headers;
+using System.Net;
 
 namespace FacturacionAPI.IntegrationTests
 {
@@ -66,6 +67,18 @@ namespace FacturacionAPI.IntegrationTests
             //Assert: Verificar que el estado no sea nulo y que tenga el Id correcto
             Assert.IsNotNull(estado, "El estado no debería de ser nulo");
             Assert.AreEqual(estadoId, estado.EstadoId, "El Id del estado devuelto no conicide");
+        }
+
+        [TestMethod]
+        public async Task GuardarEstado_ConDatosValidos_RetornaCreated()
+        {
+            //Arrange: Pasar autorizacion a la cabecera y preparar el nuevo estado
+            AgregarTokenALaCabecera();
+            var newEstado = new EstadoRequest { Nombre = "Pendiente" };
+            //Act: Realizar solicitud para guardar el estado
+            var response = await _httpClient.PostAsJsonAsync("api/estados", newEstado);
+            //Asert: Verifica el código de estado Created
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode, "El usuario no se creo correctamente");
         }
     }
 }
