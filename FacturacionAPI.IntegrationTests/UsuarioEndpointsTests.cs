@@ -98,6 +98,43 @@ namespace FacturacionAPI.IntegrationTests
             //Assert: Verificar el código de estado conflict
             Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode, "Se esperaba un conflicto al intentar crer un correo duplicado.");
         }
+
+        [TestMethod]
+        public async Task ModificarUsuario_UsuarioExistente_RetornaOk()
+        {
+            //Arrange: Pasar autorización a la cbecera y preparar el usuario modificado, pasando por un ID
+            AgregarTokenALaCabecera();
+            var existingUsuario = new UsuarioRequest { Nombre = "Alessia", Contrasena = "1234", Correo = "AliGarcia@gmail.com" };
+            var UsuarioId = 9;
+            //Act: Realizar solicitud para modificar usuario existente
+            var response = await _httpClient.PutAsJsonAsync($"api/usuarios/{UsuarioId}", existingUsuario);
+            //Assert: Verifica que la respuesta sea Ok
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "El usuario no se modificó correctamente");
+        }
+
+        [TestMethod]
+        public async Task EliminarUsuario_UsuarioExistente_RetornaNoContent()
+        {
+            //Arrange: Pasar autorización a la cabecera, pasando un ID
+            AgregarTokenALaCabecera();
+            var UsuarioId = 11;
+            //Act: Realizar solicitud para eliminar usuario existente
+            var response = await _httpClient.DeleteAsync($"api/usuarios/{UsuarioId}");
+            //Assert: Verifica que la respuesta sea NoContent
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode, "El usuario no se elimino correctamente");
+        }
+
+        [TestMethod]
+        public async Task EliminarUsuario_UsuarioNoExistente_RetornaNotFound()
+        {
+            //Arrange: Pasar autorización a la cabecera, pasando un ID
+            AgregarTokenALaCabecera();
+            var UsuarioId = 11;
+            //Act: Realizar solicitud para eliminar usuario existente
+            var response = await _httpClient.DeleteAsync($"api/usuarios/{UsuarioId}");
+            //Assert: Verifica que la respuesta sea NoContent
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Se esperaba un 404 NotFound al intentar eliminar un usuario inexistente");
+        }
     }
 }
 
