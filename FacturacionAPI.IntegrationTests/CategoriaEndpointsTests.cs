@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
@@ -77,6 +78,77 @@ namespace FacturacionAPI.IntegrationTests
             Assert.AreEqual(categoriaId, categoria.CategoriaId, "El ID de la categoria devuelta no coincide.");
         }
 
+        [TestMethod]
+        public async Task GuardarCategoria_ConNombreValido_RetornaCreated()
+        {
+            // Arrange: Pasar autorización a la cabecera y preparar la nueva categoría con solo el nombre
+            AgregarTokenALaCabecera();
+            var nuevaCategoria = new CategoriaRequest { Nombre = "Micrófonos" };
+
+            // Act: Realizar solicitud para guardar la categoría
+            var response = await _httpClient.PostAsJsonAsync("api/categorias", nuevaCategoria);
+
+            // Assert: Verificar que el código de estado sea 'Created'
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode, "La categoría no se creó correctamente.");
+        }
+
+        [TestMethod]
+        public async Task GuardarCategoria_NombreDuplicado_RetornaConflict()
+        {
+            // Arrange: Pasar autorización a la cabecera y preparar la categoría duplicada
+            AgregarTokenALaCabecera();
+            var newCategoria = new CategoriaRequest { Nombre = "Almacenamiento", EstadoId=1};
+
+            // Act: Realizar solicitud para guardar la categoría con nombre duplicado
+            var response = await _httpClient.PostAsJsonAsync("api/categorias", newCategoria);
+
+            // Assert: Verificar el código de estado Conflict
+            Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode, "Se esperaba un conflicto al intentar crear una categoría duplicada.");
+        }
+
+        [TestMethod]
+        public async Task ModificarCategoria_CategoriaExistente_RetornaOk()
+        {
+            // Arrange: Pasar autorización a la cabecera y preparar la categoría modificada, pasando un ID existente
+            AgregarTokenALaCabecera();
+            var existingCategoria = new CategoriaRequest { Nombre = "Ropa" };
+            var categoriaId = 1; // ID de la categoría existente a modificar
+
+            // Act: Realizar solicitud para modificar la categoría existente
+            var response = await _httpClient.PutAsJsonAsync($"api/categorias/{categoriaId}", existingCategoria);
+
+            // Assert: Verificar que la respuesta sea OK
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "La categoría no se modificó correctamente.");
+        }
+
+        [TestMethod]
+        public async Task EliminarCategoria_CategoriaExistente_RetornaNoContent()
+        {
+            // Arrange: Pasar autorización a la cabecera y establecer el ID de la categoría a eliminar
+            AgregarTokenALaCabecera();
+            var categoriaId = 10; // ID de la categoría existente a eliminar
+
+            // Act: Realizar solicitud para eliminar la categoría existente
+            var response = await _httpClient.DeleteAsync($"api/categorias/{categoriaId}");
+
+            // Assert: Verificar que la respuesta sea NoContent
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode, "La categoría no se eliminó correctamente.");
+        }
+
+        [TestMethod]
+        public async Task EliminarCategoria_CategoriaNoExistente_RetornaNotFound()
+        {
+            // Arrange: Pasar autorización a la cabecera y establecer el ID de la categoría inexistente
+            AgregarTokenALaCabecera();
+            var categoriaId = 9999; // ID de una categoría que no existe en la base de datos
+
+            // Act: Realizar solicitud para intentar eliminar una categoría inexistente
+            var response = await _httpClient.DeleteAsync($"api/categorias/{categoriaId}");
+
+            // Assert: Verificar que la respuesta sea NotFound
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode,
+                "Se esperaba un 404 NotFound al intentar eliminar una categoría inexistente.");
+        }
 
     }
 }
