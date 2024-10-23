@@ -40,9 +40,17 @@ namespace FacturacionAPI.Endpoints
                 if (estado == null)
                     return Results.BadRequest(); // 400 Bad Request: La solicitud no se pudo procesar, error
 
-                var id = await estadoServices.PostEstado(estado);
-                // 201 Created: El recurso se creó con éxito, se devuelve la ubicación del recurso creado
-                return Results.Created($"api/estados/{id}", estado);
+                try
+                {
+                    var id = await estadoServices.PostEstado(estado);
+                    // 201 Created: El recurso se creó con éxito, se devuelve la ubicación del recurso creado
+                    return Results.Created($"api/estados/{id}", estado);
+                }
+                catch (Exception) 
+                {
+                    //409 conflico
+                    return Results.Conflict("El usuario ya esta en uso");
+                }
             }).WithOpenApi(o => new OpenApiOperation(o)
             {
                 Summary = "Crear Estado",
