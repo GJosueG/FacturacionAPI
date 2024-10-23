@@ -74,11 +74,60 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorizacion a la cabecera y preparar el nuevo estado
             AgregarTokenALaCabecera();
-            var newEstado = new EstadoRequest { Nombre = "Pendiente" };
+            var newEstado = new EstadoRequest { Nombre = "Denegado" };
             //Act: Realizar solicitud para guardar el estado
             var response = await _httpClient.PostAsJsonAsync("api/estados", newEstado);
             //Asert: Verifica el código de estado Created
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode, "El usuario no se creo correctamente");
+        }
+
+        [TestMethod]
+        public async Task GuardarEstado_NombreDuplicado_RetornaConflict()
+        {
+            //Arrange: Pasar autorizacion a la cabecera y preparar el estado duplicado
+            AgregarTokenALaCabecera();
+            var newEstado = new EstadoRequest { Nombre = "Aprobado" };
+            //Act: Realizar solicitud para guardar el estado con el nombre de estado duplicado.
+            var response = await _httpClient.PostAsJsonAsync("api/estados", newEstado);
+            //Asert: Verifica el código de estado Conflict
+            Assert.AreEqual(HttpStatusCode.Conflict, response.StatusCode, "Se esperaba un conflicto al intentar crear un estado duplicado");
+        }
+
+        [TestMethod]
+        public async Task ModificarEstado_EstadoExistente_RetornaOk()
+        {
+            //Arrange: Pasar autorización a la cabecera y preparar el estado modificado, pasando un ID
+            AgregarTokenALaCabecera();
+            var existingEstado = new EstadoRequest { Nombre = "Reprobado" };
+            var estadoId = 14;
+            //Act: Realizar solicitud para modificar estado existente
+            var response = await _httpClient.PutAsJsonAsync($"api/estados/{estadoId}", existingEstado);
+            //Asert: Verifica que la respuesta sea OK
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "El usuario no se modificó correctamente");
+        }
+
+        [TestMethod]
+        public async Task EliminarEstado_EstadoExistente_RetornaNoContent()
+        {
+            //Arrange: Pasar autorización a la cabecera, pasando un ID
+            AgregarTokenALaCabecera();
+            var estadoId = 14;
+            //Act: Realizar solicitud para eliminar estado existente
+            var response = await _httpClient.DeleteAsync($"api/estados/{estadoId}");
+            //Asert: Verifica que la respuesta sea NoContent
+            Assert.AreEqual(HttpStatusCode.NoContent, response.StatusCode, "El usuario no se elimninó correctamente");
+        }
+
+        [TestMethod]
+        public async Task EliminarEstado_EstadoNoExistente_RetornaNotFound()
+        {
+            //Arrange: Pasar autorización a la cabecera, pasando un ID
+            AgregarTokenALaCabecera();
+            var estadoId = 14;
+            //Act: Realizar solicitud para eliminar estado existente
+            var response = await _httpClient.DeleteAsync($"api/estados/{estadoId}");
+            //Asert: Verifica que la respuesta sea NoContent
+            Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode, "Se esperaba un 404 NotFound al intentar al intentar eliminar un estado inexistente");
         }
     }
 }
