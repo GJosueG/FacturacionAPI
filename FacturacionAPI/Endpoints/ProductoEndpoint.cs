@@ -41,9 +41,18 @@ namespace FacturacionAPI.Endpoints
                 if (producto == null)
                     return Results.BadRequest(); // 400 Bad Request: La solicitud no se pudo procesar, error de formato
 
-                var id = await productoServices.PostProducto(producto);
-                //201 Created: El recurso se creó con éxito, se devuelve la úbicación del recurso creado
-                return Results.Created($"api/productos/{id}", producto);
+                try
+                {
+                    var id = await productoServices.PostProducto(producto);
+                    //201 Created: El recurso se creó con éxito, se devuelve la úbicación del recurso creado
+                    return Results.Created($"api/productos/{id}", producto);
+                }
+                catch (Exception)
+                {
+
+                    //409 Conflict
+                    return Results.Conflict("El usuario ya existe");
+                }
 
             }).WithOpenApi(o => new OpenApiOperation(o)
             {
