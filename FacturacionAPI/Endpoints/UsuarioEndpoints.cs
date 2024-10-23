@@ -46,8 +46,17 @@ namespace FacturacionAPI.Endpoints
                 if (usuario == null)
                     return Results.BadRequest();
 
-                var id = await usuarioServices.PostUsuario(usuario);
-                return Results.Created($"api/usuarios/{id}", usuario);
+                try
+                {
+                    var id = await usuarioServices.PostUsuario(usuario);
+                    return Results.Created($"api/usuarios/{id}", usuario);
+                }
+                catch (Exception)
+                {
+                    //409 conflict
+                    return Results.Conflict("El Correo ingresado ya está en uso.");
+                }
+
             }).WithOpenApi(o => new OpenApiOperation(o)
             {
                 Summary = "Crear Usuario",

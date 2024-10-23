@@ -14,13 +14,12 @@ namespace FacturacionAPI.IntegrationTests
 
             using var _httpClient = application.CreateClient();
 
-            var userSession = new UsuarioRequest { Nombre = "Gerardo", Contrasena = "Gerardo" };
-
+            var usuariosession = new UsuarioRequest { Nombre = "Gerardo", Contrasena = "Gerardo" };
             var response = await _httpClient.PostAsJsonAsync("api/usuarios/login", userSession);
 
             if (response.IsSuccessStatusCode)
             {
-                // Se asegura de que el resultado sea leído correctamente
+                // Se asegura de que el resultado sea leÃ­do correctamente
                 var result = await response.Content.ReadFromJsonAsync<string>();
             }
         }
