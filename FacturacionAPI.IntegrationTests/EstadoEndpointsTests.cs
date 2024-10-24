@@ -74,7 +74,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorizacion a la cabecera y preparar el nuevo estado
             AgregarTokenALaCabecera();
-            var newEstado = new EstadoRequest { Nombre = "Denegado" };
+            var newEstado = new EstadoRequest { Nombre = "En proceso" };
             //Act: Realizar solicitud para guardar el estado
             var response = await _httpClient.PostAsJsonAsync("api/estados", newEstado);
             //Asert: Verifica el código de estado Created
@@ -86,7 +86,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorizacion a la cabecera y preparar el estado duplicado
             AgregarTokenALaCabecera();
-            var newEstado = new EstadoRequest { Nombre = "Aprobado" };
+            var newEstado = new EstadoRequest { Nombre = "Pendiente" };
             //Act: Realizar solicitud para guardar el estado con el nombre de estado duplicado.
             var response = await _httpClient.PostAsJsonAsync("api/estados", newEstado);
             //Asert: Verifica el código de estado Conflict
@@ -98,8 +98,8 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorización a la cabecera y preparar el estado modificado, pasando un ID
             AgregarTokenALaCabecera();
-            var existingEstado = new EstadoRequest { Nombre = "Reprobado" };
-            var estadoId = 14;
+            var existingEstado = new EstadoRequest { Nombre = "Activo" };
+            var estadoId = 1;
             //Act: Realizar solicitud para modificar estado existente
             var response = await _httpClient.PutAsJsonAsync($"api/estados/{estadoId}", existingEstado);
             //Asert: Verifica que la respuesta sea OK
@@ -111,7 +111,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorización a la cabecera, pasando un ID
             AgregarTokenALaCabecera();
-            var estadoId = 14;
+            var estadoId = 10;
             //Act: Realizar solicitud para eliminar estado existente
             var response = await _httpClient.DeleteAsync($"api/estados/{estadoId}");
             //Asert: Verifica que la respuesta sea NoContent
@@ -123,7 +123,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorización a la cabecera, pasando un ID
             AgregarTokenALaCabecera();
-            var estadoId = 14;
+            var estadoId = 20;
             //Act: Realizar solicitud para eliminar estado existente
             var response = await _httpClient.DeleteAsync($"api/estados/{estadoId}");
             //Asert: Verifica que la respuesta sea NoContent
