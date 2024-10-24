@@ -88,8 +88,8 @@ namespace FacturacionAPI.IntegrationTests
             var nuevoProducto = new ProductoRequest
             {
                 ProductoId = 0,
-                Nombre = "Cargador3",
-                Precio = 5.00M,
+                Nombre = "Audifonos GM2Pro",
+                Precio = 20.00M,
                 Stock = 20,
                 UsuarioId = 1,
                 CategoriaId = 1,
@@ -121,8 +121,8 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y preparar el producto modificado, pasando un ID existente
             AgregarTokenAlaCabecera();
-            var existingProducto = new ProductoRequest { Nombre = "Huawei Y19", Precio = 190.00m, Stock = 20, UsuarioId = 1, CategoriaId = 1, EstadoId = 1 };
-            var productoId = 6; // ID del producto existente a modificar
+            var existingProducto = new ProductoRequest { Nombre = "Iphone 17", Precio = 1900.00m, Stock = 20, UsuarioId = 1, CategoriaId = 1, EstadoId = 1 };
+            var productoId = 13; // ID del producto existente a modificar
 
             // Act: Realizar solicitud para modificar el producto existente
             var response = await _httpClient.PutAsJsonAsync($"api/productos/{productoId}", existingProducto);
@@ -136,7 +136,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y establecer el ID del producto a eliminar
             AgregarTokenAlaCabecera();
-            var productoId = 10; // ID del producto existente a eliminar
+            var productoId = 18; // ID del producto existente a eliminar
 
             // Act: Realizar solicitud para eliminar el producto existente
             var response = await _httpClient.DeleteAsync($"api/productos/{productoId}");

@@ -48,7 +48,7 @@ namespace FacturacionAPI.IntegrationTests
             // Agregar el token JWT a la cabecera de autorización de todas las solicitudes HTTP
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
         }
-
+        
         [TestMethod]
         public async Task ObtenerCategorias_ConTokenValido_RetornaListaDecategorias()
         {
@@ -111,8 +111,8 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y preparar la categoría modificada, pasando un ID existente
             AgregarTokenALaCabecera();
-            var existingCategoria = new CategoriaRequest { Nombre = "Monitores" };
-            var categoriaId = 1; // ID de la categoría existente a modificar
+            var existingCategoria = new CategoriaRequest { Nombre = "Monitores", EstadoId=1};
+            var categoriaId = 5; // ID de la categoría existente a modificar
 
             // Act: Realizar solicitud para modificar la categoría existente
             var response = await _httpClient.PutAsJsonAsync($"api/categorias/{categoriaId}", existingCategoria);
