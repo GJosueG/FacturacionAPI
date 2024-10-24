@@ -80,7 +80,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorización a la cabecera y preparar el uevo usuario
             AgregarTokenALaCabecera();
-            var newUsuario = new UsuarioRequest { Nombre = "Alice", Contrasena = "Ali12", Correo = "AliElias@gmail.com" };
+            var newUsuario = new UsuarioRequest { Nombre = "Beatriz", Contrasena = "Bea12", Correo = "Bea459@gmail.com" };
             //Act: Realizar solicitud para guardar el usuario
             var response = await _httpClient.PostAsJsonAsync("api/usuarios", newUsuario);
             //Assert: Verificar el código de estado created
@@ -102,10 +102,10 @@ namespace FacturacionAPI.IntegrationTests
         [TestMethod]
         public async Task ModificarUsuario_UsuarioExistente_RetornaOk()
         {
-            //Arrange: Pasar autorización a la cbecera y preparar el usuario modificado, pasando por un ID
+            //Arrange: Pasar autorización a la cabecera y preparar el usuario modificado, pasando por un ID
             AgregarTokenALaCabecera();
-            var existingUsuario = new UsuarioRequest { Nombre = "Alessia", Contrasena = "1234", Correo = "AliGarcia@gmail.com" };
-            var UsuarioId = 9;
+            var existingUsuario = new UsuarioRequest { Nombre = "Brizeyda", Contrasena = "Bris1234", Correo = "Mary@gmail.com" };
+            var UsuarioId = 4   ;
             //Act: Realizar solicitud para modificar usuario existente
             var response = await _httpClient.PutAsJsonAsync($"api/usuarios/{UsuarioId}", existingUsuario);
             //Assert: Verifica que la respuesta sea Ok
@@ -117,7 +117,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorización a la cabecera, pasando un ID
             AgregarTokenALaCabecera();
-            var UsuarioId = 11;
+            var UsuarioId = 13;
             //Act: Realizar solicitud para eliminar usuario existente
             var response = await _httpClient.DeleteAsync($"api/usuarios/{UsuarioId}");
             //Assert: Verifica que la respuesta sea NoContent
@@ -129,7 +129,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             //Arrange: Pasar autorización a la cabecera, pasando un ID
             AgregarTokenALaCabecera();
-            var UsuarioId = 11;
+            var UsuarioId = 20;
             //Act: Realizar solicitud para eliminar usuario existente
             var response = await _httpClient.DeleteAsync($"api/usuarios/{UsuarioId}");
             //Assert: Verifica que la respuesta sea NoContent

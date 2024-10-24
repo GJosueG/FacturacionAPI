@@ -48,7 +48,7 @@ namespace FacturacionAPI.IntegrationTests
             // Agregar el token JWT a la cabecera de autorización de todas las solicitudes HTTP
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
         }
-
+        
         [TestMethod]
         public async Task ObtenerCategorias_ConTokenValido_RetornaListaDecategorias()
         {
@@ -83,7 +83,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y preparar la nueva categoría con solo el nombre
             AgregarTokenALaCabecera();
-            var nuevaCategoria = new CategoriaRequest { Nombre = "Micrófonos" };
+            var nuevaCategoria = new CategoriaRequest { Nombre = "Almacenamiento", EstadoId=1};
 
             // Act: Realizar solicitud para guardar la categoría
             var response = await _httpClient.PostAsJsonAsync("api/categorias", nuevaCategoria);
@@ -97,7 +97,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y preparar la categoría duplicada
             AgregarTokenALaCabecera();
-            var newCategoria = new CategoriaRequest { Nombre = "Almacenamiento", EstadoId=1};
+            var newCategoria = new CategoriaRequest { Nombre = "Ropa", EstadoId=1};
 
             // Act: Realizar solicitud para guardar la categoría con nombre duplicado
             var response = await _httpClient.PostAsJsonAsync("api/categorias", newCategoria);
@@ -111,8 +111,8 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y preparar la categoría modificada, pasando un ID existente
             AgregarTokenALaCabecera();
-            var existingCategoria = new CategoriaRequest { Nombre = "Ropa" };
-            var categoriaId = 1; // ID de la categoría existente a modificar
+            var existingCategoria = new CategoriaRequest { Nombre = "Monitores", EstadoId=1};
+            var categoriaId = 5; // ID de la categoría existente a modificar
 
             // Act: Realizar solicitud para modificar la categoría existente
             var response = await _httpClient.PutAsJsonAsync($"api/categorias/{categoriaId}", existingCategoria);
@@ -126,7 +126,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y establecer el ID de la categoría a eliminar
             AgregarTokenALaCabecera();
-            var categoriaId = 10; // ID de la categoría existente a eliminar
+            var categoriaId = 14; // ID de la categoría existente a eliminar
 
             // Act: Realizar solicitud para eliminar la categoría existente
             var response = await _httpClient.DeleteAsync($"api/categorias/{categoriaId}");
@@ -140,7 +140,7 @@ namespace FacturacionAPI.IntegrationTests
         {
             // Arrange: Pasar autorización a la cabecera y establecer el ID de la categoría inexistente
             AgregarTokenALaCabecera();
-            var categoriaId = 9999; // ID de una categoría que no existe en la base de datos
+            var categoriaId = 25; // ID de una categoría que no existe en la base de datos
 
             // Act: Realizar solicitud para intentar eliminar una categoría inexistente
             var response = await _httpClient.DeleteAsync($"api/categorias/{categoriaId}");
